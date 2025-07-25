@@ -1,0 +1,498 @@
+/* == Zen Browser - Complete UI Animations (Tabs, Toolbar, URL, Search, Navigation & Context Menu) == */
+
+/* Hardware acceleration & will-change for best perf */
+#tabbrowser-tabs, .tabbrowser-tab, 
+#nav-bar toolbarbutton, #PersonalToolbar toolbarbutton,
+#urlbar, #searchbar, menupopup {
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* === TAB ANIMATIONS === */
+/* Tab hover and active animation: subtle lift and shadow */
+.tabbrowser-tab {
+  transition: box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), 
+              transform 0.24s cubic-bezier(0.22,1.5,0.36,1),
+              opacity 0.15s cubic-bezier(0.4,0,0.2,1) !important;
+  box-shadow: none !important;
+}
+.tabbrowser-tab:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 12px -4px rgba(30,40,80,0.09);
+  z-index: 2;
+}
+
+/* Selected tab: bolder shadow & indicator */
+.tabbrowser-tab[selected] {
+  box-shadow: 0 6px 18px -6px rgba(50,70,160,0.20);
+  z-index: 3;
+}
+.tabbrowser-tab[selected] .tab-background:after {
+  content: "";
+  position: absolute;
+  left: 8px; right: 8px; bottom: 2px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: linear-gradient(90deg,#448aff 30%,#64b5f6 100%);
+  transition: width 0.15s cubic-bezier(0.68,-0.55,0.27,1.55);
+  width: calc(100% - 16px);
+  pointer-events: none;
+}
+
+/* Fade inactive tabs for focus */
+.tabbrowser-tab:not([selected]) {
+  opacity: 0.82;
+  filter: blur(0.2px);
+}
+
+/* Tab opening: elastic pop-in */
+.tabbrowser-tab[fadein] {
+  animation: tabBounceIn 0.34s cubic-bezier(0.68,-0.6, 0.32,1.6);
+}
+@keyframes tabBounceIn {
+  0% { opacity: 0; transform: scale(0.86) translateY(4px);}
+  60% { opacity: 1; transform: scale(1.09) translateY(-3px);}
+  100% { opacity: 1; transform: scale(1.0) translateY(0);}
+}
+
+/* Tab closing: fade and shrink out */
+.tabbrowser-tab[closing] {
+  animation: tabShrinkOut 0.19s cubic-bezier(0.68,-0.6, 0.32,1.6) forwards;
+}
+@keyframes tabShrinkOut {
+  0% { opacity: 1; transform: scale(1.0);}
+  100% { opacity: 0; transform: scale(0.7);}
+}
+
+/* Smooth indicator for new/active tab */
+.tabbrowser-tab .tab-label, 
+.tabbrowser-tab .tab-icon-image {
+  transition: color 0.22s cubic-bezier(0.4,0.0,0.2,1), 
+              opacity 0.17s cubic-bezier(0.4,0.0,0.2,1) !important;
+}
+
+/* Close button subtle bounce on hover */
+.tab-close-button {
+  transition: transform 0.16s cubic-bezier(0.49,1.7,0.36,1), opacity 0.12s ease !important;
+}
+.tab-close-button:hover {
+  transform: scale(1.20); opacity:1;
+}
+
+/* === NAVIGATION BUTTON ANIMATIONS (BACK, FORWARD, RELOAD) === */
+/* Back button - sliding left animation */
+#back-button {
+  transition: transform 0.22s cubic-bezier(0.68,-0.6, 0.32,1.6),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.15s ease !important;
+  border-radius: 6px;
+}
+
+#back-button:hover {
+  transform: translateX(-2px) translateY(-1px) scale(1.08);
+  box-shadow: 0 4px 12px -3px rgba(30,40,80,0.15);
+}
+
+#back-button:active {
+  transform: translateX(-1px) scale(1.04);
+  transition-duration: 0.1s;
+}
+
+/* Forward button - sliding right animation */
+#forward-button {
+  transition: transform 0.22s cubic-bezier(0.68,-0.6, 0.32,1.6),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.15s ease !important;
+  border-radius: 6px;
+}
+
+#forward-button:hover {
+  transform: translateX(2px) translateY(-1px) scale(1.08);
+  box-shadow: 0 4px 12px -3px rgba(30,40,80,0.15);
+}
+
+#forward-button:active {
+  transform: translateX(1px) scale(1.04);
+  transition-duration: 0.1s;
+}
+
+/* Reload button - spinning bounce animation */
+#reload-button {
+  transition: transform 0.25s cubic-bezier(0.68,-0.6, 0.32,1.6),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.15s ease !important;
+  border-radius: 6px;
+}
+
+#reload-button:hover {
+  transform: translateY(-2px) scale(1.1) rotate(15deg);
+  box-shadow: 0 5px 14px -4px rgba(30,40,80,0.18);
+}
+
+#reload-button:active {
+  transform: rotate(90deg) scale(1.05);
+  transition-duration: 0.15s;
+}
+
+/* Loading state animation for reload button */
+#reload-button[loading="true"] {
+  animation: reloadSpin 1s linear infinite;
+}
+
+@keyframes reloadSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === OTHER TOOLBAR BUTTON ANIMATIONS === */
+/* General navigation buttons (excluding specific ones above) */
+#nav-bar toolbarbutton:not(#back-button):not(#forward-button):not(#reload-button),
+#PersonalToolbar toolbarbutton {
+  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.15s ease !important;
+  border-radius: 6px;
+}
+
+#nav-bar toolbarbutton:not(#back-button):not(#forward-button):not(#reload-button):hover,
+#PersonalToolbar toolbarbutton:hover {
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.12);
+}
+
+#nav-bar toolbarbutton:not(#back-button):not(#forward-button):not(#reload-button):active,
+#PersonalToolbar toolbarbutton:active {
+  transform: translateY(0px) scale(1.02);
+  transition-duration: 0.1s;
+}
+
+/* Address bar button bounce */
+#urlbar toolbarbutton {
+  transition: transform 0.18s cubic-bezier(0.49,1.7,0.36,1),
+              opacity 0.15s ease !important;
+}
+
+#urlbar toolbarbutton:hover {
+  transform: scale(1.12);
+}
+
+/* Bookmarks toolbar buttons */
+#PlacesToolbarItems toolbarbutton {
+  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
+              background-color 0.15s ease,
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
+  border-radius: 4px;
+}
+
+#PlacesToolbarItems toolbarbutton:hover {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 2px 6px -1px rgba(30,40,80,0.1);
+}
+
+/* Menu button (hamburger) special bounce */
+#PanelUI-menu-button {
+  transition: transform 0.22s cubic-bezier(0.68,-0.6, 0.32,1.6),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+#PanelUI-menu-button:hover {
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 4px 10px -3px rgba(30,40,80,0.15);
+}
+
+/* Extension buttons */
+#unified-extensions-button,
+.unified-extensions-item {
+  transition: transform 0.18s cubic-bezier(0.49,1.7,0.36,1),
+              opacity 0.15s ease !important;
+}
+
+#unified-extensions-button:hover,
+.unified-extensions-item:hover {
+  transform: scale(1.1);
+}
+
+/* Downloads button */
+#downloads-button {
+  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+#downloads-button:hover {
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.12);
+}
+
+/* Library/History button */
+#library-button {
+  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
+              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+#library-button:hover {
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.12);
+}
+
+/* === URL BAR & SEARCH BAR ANIMATIONS === */
+/* URL bar container */
+#urlbar {
+  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
+              box-shadow 0.25s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.2s ease !important;
+}
+
+#urlbar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -4px rgba(30,40,80,0.1);
+}
+
+#urlbar:focus-within,
+#urlbar[focused="true"] {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 16px -6px rgba(50,70,160,0.15);
+  transition-duration: 0.15s;
+}
+
+/* URL bar input field */
+#urlbar-input {
+  transition: opacity 0.15s ease !important;
+}
+
+/* URL bar background smooth transition */
+#urlbar-background {
+  transition: background-color 0.2s ease,
+              border-color 0.2s ease !important;
+}
+
+/* Search bar container */
+#searchbar {
+  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
+              box-shadow 0.25s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.2s ease !important;
+}
+
+#searchbar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -4px rgba(30,40,80,0.1);
+}
+
+#searchbar:focus-within,
+#searchbar[focused="true"] {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 16px -6px rgba(50,70,160,0.15);
+  transition-duration: 0.15s;
+}
+
+/* Search textbox */
+.searchbar-textbox {
+  transition: transform 0.18s cubic-bezier(0.22,1.5,0.36,1),
+              box-shadow 0.2s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+.searchbar-textbox:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.08);
+}
+
+.searchbar-textbox:focus {
+  transform: translateY(-1px) scale(1.005);
+  box-shadow: 0 4px 12px -4px rgba(50,70,160,0.12);
+}
+
+/* Search engine button */
+.searchbar-search-button {
+  transition: transform 0.18s cubic-bezier(0.49,1.7,0.36,1),
+              opacity 0.15s ease !important;
+}
+
+.searchbar-search-button:hover {
+  transform: scale(1.08);
+}
+
+/* URL bar suggestion dropdown */
+#urlbar-results {
+  transition: opacity 0.15s cubic-bezier(0.4,0,0.2,1),
+              transform 0.2s cubic-bezier(0.22,1.5,0.36,1) !important;
+}
+
+/* Individual URL suggestions */
+.urlbarView-row {
+  transition: background-color 0.15s ease,
+              transform 0.15s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+.urlbarView-row:hover {
+  transform: translateX(2px);
+}
+
+/* Search suggestions */
+.search-one-offs {
+  transition: opacity 0.15s ease !important;
+}
+
+.searchbar-engine-one-off-item {
+  transition: transform 0.15s cubic-bezier(0.49,1.7,0.36,1),
+              opacity 0.12s ease !important;
+}
+
+.searchbar-engine-one-off-item:hover {
+  transform: scale(1.1);
+}
+
+/* === CONTEXT MENU ANIMATIONS === */
+/* Context menu popup container */
+menupopup {
+  animation: contextMenuSlideIn 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transform-origin: top left;
+}
+
+@keyframes contextMenuSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Context menu closing animation */
+menupopup[animate="false"] {
+  animation: contextMenuSlideOut 0.12s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards !important;
+}
+
+@keyframes contextMenuSlideOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95) translateY(-2px);
+  }
+}
+
+/* Context menu items */
+menuitem {
+  transition: background-color 0.12s ease,
+              transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.12s ease !important;
+}
+
+menuitem:hover {
+  transform: translateX(2px);
+  background-color: rgba(70, 140, 255, 0.08) !important;
+}
+
+menuitem:active {
+  transform: translateX(1px) scale(0.98);
+  transition-duration: 0.08s;
+}
+
+/* Context menu separators */
+menuseparator {
+  transition: opacity 0.15s ease !important;
+}
+
+/* Context menu icons */
+menuitem .menu-iconic-left {
+  transition: transform 0.15s cubic-bezier(0.49, 1.7, 0.36, 1),
+              opacity 0.12s ease !important;
+}
+
+menuitem:hover .menu-iconic-left {
+  transform: scale(1.08);
+}
+
+/* Context menu labels */
+menuitem .menu-text {
+  transition: color 0.12s ease !important;
+}
+
+/* Submenu indicators */
+menuitem .menu-right {
+  transition: transform 0.15s cubic-bezier(0.49, 1.7, 0.36, 1),
+              opacity 0.12s ease !important;
+}
+
+menuitem:hover .menu-right {
+  transform: translateX(2px) scale(1.1);
+}
+
+/* Panel/dropdown menus (like bookmarks, history) */
+panel {
+  animation: panelSlideIn 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transform-origin: top;
+}
+
+@keyframes panelSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Panel items */
+.panel-listitem {
+  transition: background-color 0.12s ease,
+              transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.panel-listitem:hover {
+  transform: translateX(1px);
+}
+
+/* Tooltip animations */
+tooltip {
+  animation: tooltipFadeIn 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform-origin: bottom;
+}
+
+@keyframes tooltipFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* === PRESERVE FUNCTIONALITY === */
+/* Drag, move, reorder and motion accessibility */
+.tabbrowser-tab[dragged],
+.tabbrowser-tab[moving] {
+  transition: none !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabbrowser-tab, .tab-close-button, .tab-background:after,
+  #nav-bar toolbarbutton, #PersonalToolbar toolbarbutton,
+  #urlbar toolbarbutton, #PlacesToolbarItems toolbarbutton,
+  #PanelUI-menu-button, #unified-extensions-button,
+  .unified-extensions-item, #downloads-button, #library-button,
+  #urlbar, #searchbar, .searchbar-textbox, .searchbar-search-button,
+  #urlbar-results, .urlbarView-row, .search-one-offs,
+  .searchbar-engine-one-off-item, #back-button, #forward-button, #reload-button,
+  menupopup, menuitem, panel, .panel-listitem, tooltip { 
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Performance optimizations */
+.tabbrowser-tab *, 
+#nav-bar toolbarbutton *,
+#PersonalToolbar toolbarbutton *,
+#urlbar *, #searchbar *,
+menupopup *, menuitem * { 
+  backface-visibility: hidden; 
+}
