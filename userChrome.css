@@ -1,32 +1,35 @@
-/* == Zen Browser - Complete UI Animations (Tabs, Toolbar, URL, Search, Navigation & Context Menu) == */
+/* == Zen Browser - Complete Advanced UI Animations Collection == */
 
-/* Hardware acceleration & will-change for best perf */
+/* Hardware acceleration & will-change for best performance */
 #tabbrowser-tabs, .tabbrowser-tab, 
 #nav-bar toolbarbutton, #PersonalToolbar toolbarbutton,
-#urlbar, #searchbar, menupopup {
+#urlbar, #searchbar, menupopup, panel, tooltip {
   transform: translateZ(0);
   will-change: auto;
 }
 
 /* === TAB ANIMATIONS === */
-/* Tab hover and active animation: subtle lift and shadow */
+/* Tab hover and active animation with enhanced shadows */
 .tabbrowser-tab {
   transition: box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), 
               transform 0.24s cubic-bezier(0.22,1.5,0.36,1),
-              opacity 0.15s cubic-bezier(0.4,0,0.2,1) !important;
+              opacity 0.15s cubic-bezier(0.4,0,0.2,1),
+              filter 0.2s ease !important;
   box-shadow: none !important;
 }
+
 .tabbrowser-tab:hover {
   transform: translateY(-2px) scale(1.04);
   box-shadow: 0 4px 12px -4px rgba(30,40,80,0.09);
   z-index: 2;
 }
 
-/* Selected tab: bolder shadow & indicator */
+/* Selected tab with animated indicator */
 .tabbrowser-tab[selected] {
   box-shadow: 0 6px 18px -6px rgba(50,70,160,0.20);
   z-index: 3;
 }
+
 .tabbrowser-tab[selected] .tab-background:after {
   content: "";
   position: absolute;
@@ -34,58 +37,131 @@
   height: 3px;
   border-radius: 1.5px;
   background: linear-gradient(90deg,#448aff 30%,#64b5f6 100%);
-  transition: width 0.15s cubic-bezier(0.68,-0.55,0.27,1.55);
+  animation: indicatorSlide 0.3s cubic-bezier(0.68,-0.55,0.27,1.55);
   width: calc(100% - 16px);
   pointer-events: none;
 }
 
-/* Fade inactive tabs for focus */
+@keyframes indicatorSlide {
+  0% { width: 0; opacity: 0; }
+  100% { width: calc(100% - 16px); opacity: 1; }
+}
+
+/* Fade inactive tabs with breathing effect */
 .tabbrowser-tab:not([selected]) {
   opacity: 0.82;
   filter: blur(0.2px);
+  animation: tabBreathe 4s ease-in-out infinite;
 }
 
-/* Tab opening: elastic pop-in */
+@keyframes tabBreathe {
+  0%, 100% { opacity: 0.82; }
+  50% { opacity: 0.75; }
+}
+
+/* Enhanced tab opening animation */
 .tabbrowser-tab[fadein] {
   animation: tabBounceIn 0.34s cubic-bezier(0.68,-0.6, 0.32,1.6);
 }
+
 @keyframes tabBounceIn {
-  0% { opacity: 0; transform: scale(0.86) translateY(4px);}
-  60% { opacity: 1; transform: scale(1.09) translateY(-3px);}
-  100% { opacity: 1; transform: scale(1.0) translateY(0);}
+  0% { opacity: 0; transform: scale(0.86) translateY(4px) rotateX(15deg); }
+  60% { opacity: 1; transform: scale(1.09) translateY(-3px) rotateX(-5deg); }
+  100% { opacity: 1; transform: scale(1.0) translateY(0) rotateX(0); }
 }
 
-/* Tab closing: fade and shrink out */
+/* Enhanced tab closing animation */
 .tabbrowser-tab[closing] {
   animation: tabShrinkOut 0.19s cubic-bezier(0.68,-0.6, 0.32,1.6) forwards;
 }
+
 @keyframes tabShrinkOut {
-  0% { opacity: 1; transform: scale(1.0);}
-  100% { opacity: 0; transform: scale(0.7);}
+  0% { opacity: 1; transform: scale(1.0) rotateY(0deg); max-width: 100%; }
+  50% { opacity: 0.3; transform: scale(0.9) rotateY(15deg); }
+  100% { opacity: 0; transform: scale(0.7) rotateY(30deg); max-width: 0; }
 }
 
-/* Smooth indicator for new/active tab */
-.tabbrowser-tab .tab-label, 
-.tabbrowser-tab .tab-icon-image {
-  transition: color 0.22s cubic-bezier(0.4,0.0,0.2,1), 
-              opacity 0.17s cubic-bezier(0.4,0.0,0.2,1) !important;
+/* Pinned tab special pulse animation */
+.tabbrowser-tab[pinned="true"] {
+  animation: pinnedPulse 3s ease-in-out infinite;
 }
 
-/* Close button subtle bounce on hover */
+@keyframes pinnedPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(68, 138, 255, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(68, 138, 255, 0.1); }
+}
+
+/* Loading tab favicon animation */
+.tabbrowser-tab[busy] .tab-icon-image {
+  animation: faviconSpin 1s linear infinite;
+}
+
+@keyframes faviconSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Tab preview on long hover */
+.tabbrowser-tab:hover::after {
+  content: attr(tooltiptext);
+  position: absolute;
+  top: -35px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: tooltipSlideIn 0.3s ease-out 1s forwards;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes tooltipSlideIn {
+  0% { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Tab close button with ripple effect */
 .tab-close-button {
-  transition: transform 0.16s cubic-bezier(0.49,1.7,0.36,1), opacity 0.12s ease !important;
-}
-.tab-close-button:hover {
-  transform: scale(1.20); opacity:1;
+  transition: transform 0.16s cubic-bezier(0.49,1.7,0.36,1), 
+              opacity 0.12s ease,
+              box-shadow 0.2s ease !important;
+  position: relative;
+  overflow: hidden;
 }
 
-/* === NAVIGATION BUTTON ANIMATIONS (BACK, FORWARD, RELOAD) === */
-/* Back button - sliding left animation */
+.tab-close-button:hover {
+  transform: scale(1.20);
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(255,0,0,0.3);
+}
+
+.tab-close-button:active::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.3s ease-out;
+}
+
+@keyframes ripple {
+  100% { width: 30px; height: 30px; opacity: 0; }
+}
+
+/* === NAVIGATION BUTTON ANIMATIONS === */
+/* Back button with trail effect */
 #back-button {
   transition: transform 0.22s cubic-bezier(0.68,-0.6, 0.32,1.6),
               box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
               opacity 0.15s ease !important;
   border-radius: 6px;
+  position: relative;
 }
 
 #back-button:hover {
@@ -93,17 +169,28 @@
   box-shadow: 0 4px 12px -3px rgba(30,40,80,0.15);
 }
 
-#back-button:active {
-  transform: translateX(-1px) scale(1.04);
-  transition-duration: 0.1s;
+#back-button:hover::after {
+  content: "←";
+  position: absolute;
+  right: -15px; top: 50%;
+  transform: translateY(-50%);
+  animation: trailLeft 0.5s ease-out;
+  color: rgba(68,138,255,0.6);
+  font-weight: bold;
 }
 
-/* Forward button - sliding right animation */
+@keyframes trailLeft {
+  0% { opacity: 1; right: -5px; }
+  100% { opacity: 0; right: -20px; }
+}
+
+/* Forward button with trail effect */
 #forward-button {
   transition: transform 0.22s cubic-bezier(0.68,-0.6, 0.32,1.6),
               box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
               opacity 0.15s ease !important;
   border-radius: 6px;
+  position: relative;
 }
 
 #forward-button:hover {
@@ -111,30 +198,41 @@
   box-shadow: 0 4px 12px -3px rgba(30,40,80,0.15);
 }
 
-#forward-button:active {
-  transform: translateX(1px) scale(1.04);
-  transition-duration: 0.1s;
+#forward-button:hover::after {
+  content: "→";
+  position: absolute;
+  left: -15px; top: 50%;
+  transform: translateY(-50%);
+  animation: trailRight 0.5s ease-out;
+  color: rgba(68,138,255,0.6);
+  font-weight: bold;
 }
 
-/* Reload button - spinning bounce animation */
+@keyframes trailRight {
+  0% { opacity: 1; left: -5px; }
+  100% { opacity: 0; left: -20px; }
+}
+
+/* Reload button with enhanced spin and pulse */
 #reload-button {
   transition: transform 0.25s cubic-bezier(0.68,-0.6, 0.32,1.6),
               box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
               opacity 0.15s ease !important;
   border-radius: 6px;
+  position: relative;
 }
 
 #reload-button:hover {
   transform: translateY(-2px) scale(1.1) rotate(15deg);
   box-shadow: 0 5px 14px -4px rgba(30,40,80,0.18);
+  animation: reloadPulse 1s ease-in-out infinite;
 }
 
-#reload-button:active {
-  transform: rotate(90deg) scale(1.05);
-  transition-duration: 0.15s;
+@keyframes reloadPulse {
+  0%, 100% { box-shadow: 0 5px 14px -4px rgba(30,40,80,0.18); }
+  50% { box-shadow: 0 5px 14px -4px rgba(68,138,255,0.25); }
 }
 
-/* Loading state animation for reload button */
 #reload-button[loading="true"] {
   animation: reloadSpin 1s linear infinite;
 }
@@ -144,102 +242,13 @@
   100% { transform: rotate(360deg); }
 }
 
-/* === OTHER TOOLBAR BUTTON ANIMATIONS === */
-/* General navigation buttons (excluding specific ones above) */
-#nav-bar toolbarbutton:not(#back-button):not(#forward-button):not(#reload-button),
-#PersonalToolbar toolbarbutton {
-  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
-              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1),
-              opacity 0.15s ease !important;
-  border-radius: 6px;
-}
-
-#nav-bar toolbarbutton:not(#back-button):not(#forward-button):not(#reload-button):hover,
-#PersonalToolbar toolbarbutton:hover {
-  transform: translateY(-1px) scale(1.06);
-  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.12);
-}
-
-#nav-bar toolbarbutton:not(#back-button):not(#forward-button):not(#reload-button):active,
-#PersonalToolbar toolbarbutton:active {
-  transform: translateY(0px) scale(1.02);
-  transition-duration: 0.1s;
-}
-
-/* Address bar button bounce */
-#urlbar toolbarbutton {
-  transition: transform 0.18s cubic-bezier(0.49,1.7,0.36,1),
-              opacity 0.15s ease !important;
-}
-
-#urlbar toolbarbutton:hover {
-  transform: scale(1.12);
-}
-
-/* Bookmarks toolbar buttons */
-#PlacesToolbarItems toolbarbutton {
-  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
-              background-color 0.15s ease,
-              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
-  border-radius: 4px;
-}
-
-#PlacesToolbarItems toolbarbutton:hover {
-  transform: translateY(-1px) scale(1.04);
-  box-shadow: 0 2px 6px -1px rgba(30,40,80,0.1);
-}
-
-/* Menu button (hamburger) special bounce */
-#PanelUI-menu-button {
-  transition: transform 0.22s cubic-bezier(0.68,-0.6, 0.32,1.6),
-              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
-}
-
-#PanelUI-menu-button:hover {
-  transform: scale(1.08) rotate(2deg);
-  box-shadow: 0 4px 10px -3px rgba(30,40,80,0.15);
-}
-
-/* Extension buttons */
-#unified-extensions-button,
-.unified-extensions-item {
-  transition: transform 0.18s cubic-bezier(0.49,1.7,0.36,1),
-              opacity 0.15s ease !important;
-}
-
-#unified-extensions-button:hover,
-.unified-extensions-item:hover {
-  transform: scale(1.1);
-}
-
-/* Downloads button */
-#downloads-button {
-  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
-              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
-}
-
-#downloads-button:hover {
-  transform: translateY(-1px) scale(1.06);
-  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.12);
-}
-
-/* Library/History button */
-#library-button {
-  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
-              box-shadow 0.18s cubic-bezier(0.4,0,0.2,1) !important;
-}
-
-#library-button:hover {
-  transform: translateY(-1px) scale(1.06);
-  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.12);
-}
-
-/* === URL BAR & SEARCH BAR ANIMATIONS === */
-/* URL bar container */
+/* === URL BAR & SEARCH BAR ENHANCEMENTS === */
+/* URL bar with typing indicator */
 #urlbar {
   transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
               box-shadow 0.25s cubic-bezier(0.4,0,0.2,1),
               border-color 0.2s ease !important;
+  position: relative;
 }
 
 #urlbar:hover {
@@ -254,94 +263,43 @@
   transition-duration: 0.15s;
 }
 
-/* URL bar input field */
-#urlbar-input {
-  transition: opacity 0.15s ease !important;
+/* Typing indicator animation */
+#urlbar[focused="true"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #448aff, #64b5f6, #448aff);
+  background-size: 200% 100%;
+  animation: typingFlow 2s linear infinite;
 }
 
-/* URL bar background smooth transition */
-#urlbar-background {
-  transition: background-color 0.2s ease,
-              border-color 0.2s ease !important;
+@keyframes typingFlow {
+  0% { width: 0%; background-position: 0% 50%; }
+  50% { width: 100%; background-position: 100% 50%; }
+  100% { width: 100%; background-position: 200% 50%; }
 }
 
-/* Search bar container */
-#searchbar {
-  transition: transform 0.2s cubic-bezier(0.22,1.5,0.36,1),
-              box-shadow 0.25s cubic-bezier(0.4,0,0.2,1),
-              border-color 0.2s ease !important;
+/* Connection security indicator */
+#urlbar[pageproxystate="valid"] #identity-box {
+  position: relative;
 }
 
-#searchbar:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px -4px rgba(30,40,80,0.1);
+#urlbar[pageproxystate="valid"] #identity-box::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 4px;
+  animation: securityGlow 3s ease-in-out infinite;
 }
 
-#searchbar:focus-within,
-#searchbar[focused="true"] {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 6px 16px -6px rgba(50,70,160,0.15);
-  transition-duration: 0.15s;
+@keyframes securityGlow {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(76, 175, 80, 0.3); }
+  50% { box-shadow: inset 0 0 0 1px rgba(76, 175, 80, 0.6); }
 }
 
-/* Search textbox */
-.searchbar-textbox {
-  transition: transform 0.18s cubic-bezier(0.22,1.5,0.36,1),
-              box-shadow 0.2s cubic-bezier(0.4,0,0.2,1) !important;
-}
-
-.searchbar-textbox:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px -2px rgba(30,40,80,0.08);
-}
-
-.searchbar-textbox:focus {
-  transform: translateY(-1px) scale(1.005);
-  box-shadow: 0 4px 12px -4px rgba(50,70,160,0.12);
-}
-
-/* Search engine button */
-.searchbar-search-button {
-  transition: transform 0.18s cubic-bezier(0.49,1.7,0.36,1),
-              opacity 0.15s ease !important;
-}
-
-.searchbar-search-button:hover {
-  transform: scale(1.08);
-}
-
-/* URL bar suggestion dropdown */
-#urlbar-results {
-  transition: opacity 0.15s cubic-bezier(0.4,0,0.2,1),
-              transform 0.2s cubic-bezier(0.22,1.5,0.36,1) !important;
-}
-
-/* Individual URL suggestions */
-.urlbarView-row {
-  transition: background-color 0.15s ease,
-              transform 0.15s cubic-bezier(0.4,0,0.2,1) !important;
-}
-
-.urlbarView-row:hover {
-  transform: translateX(2px);
-}
-
-/* Search suggestions */
-.search-one-offs {
-  transition: opacity 0.15s ease !important;
-}
-
-.searchbar-engine-one-off-item {
-  transition: transform 0.15s cubic-bezier(0.49,1.7,0.36,1),
-              opacity 0.12s ease !important;
-}
-
-.searchbar-engine-one-off-item:hover {
-  transform: scale(1.1);
-}
-
-/* === CONTEXT MENU ANIMATIONS === */
-/* Context menu popup container */
+/* === CONTEXT MENU ENHANCEMENTS === */
+/* Enhanced context menu with stagger animation */
 menupopup {
   animation: contextMenuSlideIn 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   transform-origin: top left;
@@ -358,141 +316,151 @@ menupopup {
   }
 }
 
-/* Context menu closing animation */
-menupopup[animate="false"] {
-  animation: contextMenuSlideOut 0.12s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards !important;
-}
-
-@keyframes contextMenuSlideOut {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.95) translateY(-2px);
-  }
-}
-
-/* Context menu items */
+/* Context menu items with stagger delay */
 menuitem {
   transition: background-color 0.12s ease,
               transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.12s ease !important;
+  animation: menuItemSlideIn 0.2s ease-out backwards;
+}
+
+menuitem:nth-child(1) { animation-delay: 0.02s; }
+menuitem:nth-child(2) { animation-delay: 0.04s; }
+menuitem:nth-child(3) { animation-delay: 0.06s; }
+menuitem:nth-child(4) { animation-delay: 0.08s; }
+menuitem:nth-child(5) { animation-delay: 0.10s; }
+menuitem:nth-child(n+6) { animation-delay: 0.12s; }
+
+@keyframes menuItemSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 menuitem:hover {
   transform: translateX(2px);
   background-color: rgba(70, 140, 255, 0.08) !important;
+  position: relative;
 }
 
-menuitem:active {
-  transform: translateX(1px) scale(0.98);
-  transition-duration: 0.08s;
+/* Menu hover glow effect */
+menuitem:hover::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(68,138,255,0.1), transparent);
+  animation: menuGlow 0.6s ease-out;
 }
 
-/* Context menu separators */
-menuseparator {
-  transition: opacity 0.15s ease !important;
+@keyframes menuGlow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-/* Context menu icons */
-menuitem .menu-iconic-left {
-  transition: transform 0.15s cubic-bezier(0.49, 1.7, 0.36, 1),
-              opacity 0.12s ease !important;
+/* === PROGRESS BAR ANIMATIONS === */
+/* Animated progress bar */
+#nav-bar-customization-target::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #448aff, #64b5f6, #81c784);
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-menuitem:hover .menu-iconic-left {
-  transform: scale(1.08);
+#main-window[loading="true"] #nav-bar-customization-target::before {
+  opacity: 1;
+  animation: progressFlow 2s linear infinite;
 }
 
-/* Context menu labels */
-menuitem .menu-text {
-  transition: color 0.12s ease !important;
+@keyframes progressFlow {
+  0% { width: 0%; background-position: 0% 50%; }
+  50% { width: 70%; background-position: 100% 50%; }
+  100% { width: 100%; background-position: 200% 50%; opacity: 0; }
 }
 
-/* Submenu indicators */
-menuitem .menu-right {
-  transition: transform 0.15s cubic-bezier(0.49, 1.7, 0.36, 1),
-              opacity 0.12s ease !important;
+/* === NOTIFICATION ANIMATIONS === */
+/* Download notification */
+#downloads-notification-anchor {
+  transition: transform 0.3s cubic-bezier(0.68,-0.6, 0.32,1.6);
 }
 
-menuitem:hover .menu-right {
-  transform: translateX(2px) scale(1.1);
+#downloads-notification-anchor[notification] {
+  animation: downloadBounce 0.6s cubic-bezier(0.68,-0.6, 0.32,1.6);
 }
 
-/* Panel/dropdown menus (like bookmarks, history) */
-panel {
-  animation: panelSlideIn 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-  transform-origin: top;
+@keyframes downloadBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.2) rotate(-5deg); }
+  60% { transform: scale(0.9) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
-@keyframes panelSlideIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.9) translateY(-8px);
+/* === SIDEBAR ANIMATIONS === */
+/* Sidebar slide with backdrop blur */
+#sidebar-box {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s ease;
+}
+
+#sidebar-box[hidden="true"] {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* === WINDOW ANIMATIONS === */
+/* Fullscreen transition */
+#main-window[inFullscreen] {
+  animation: fullscreenZoom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fullscreenZoom {
+  0% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
 }
 
-/* Panel items */
-.panel-listitem {
-  transition: background-color 0.12s ease,
-              transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+/* Hardware acceleration for all animated elements */
+.tabbrowser-tab *, 
+#nav-bar toolbarbutton *,
+#PersonalToolbar toolbarbutton *,
+#urlbar *, #searchbar *,
+menupopup *, menuitem *,
+#sidebar-box *, #downloads-notification-anchor * { 
+  backface-visibility: hidden; 
 }
 
-.panel-listitem:hover {
-  transform: translateX(1px);
-}
-
-/* Tooltip animations */
-tooltip {
-  animation: tooltipFadeIn 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  transform-origin: bottom;
-}
-
-@keyframes tooltipFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.9) translateY(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* === PRESERVE FUNCTIONALITY === */
-/* Drag, move, reorder and motion accessibility */
+/* === ACCESSIBILITY & FUNCTIONALITY PRESERVATION === */
 .tabbrowser-tab[dragged],
 .tabbrowser-tab[moving] {
   transition: none !important;
   animation: none !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tabbrowser-tab, .tab-close-button, .tab-background:after,
-  #nav-bar toolbarbutton, #PersonalToolbar toolbarbutton,
-  #urlbar toolbarbutton, #PlacesToolbarItems toolbarbutton,
-  #PanelUI-menu-button, #unified-extensions-button,
-  .unified-extensions-item, #downloads-button, #library-button,
-  #urlbar, #searchbar, .searchbar-textbox, .searchbar-search-button,
-  #urlbar-results, .urlbarView-row, .search-one-offs,
-  .searchbar-engine-one-off-item, #back-button, #forward-button, #reload-button,
-  menupopup, menuitem, panel, .panel-listitem, tooltip { 
-    transition: none !important;
-    animation: none !important;
-  }
+/* Focus indicators for keyboard navigation */
+#nav-bar toolbarbutton:focus-visible,
+.tabbrowser-tab:focus-visible {
+  outline: 2px solid #448aff;
+  outline-offset: 2px;
+  animation: focusPulse 1s ease-in-out infinite;
 }
 
-/* Performance optimizations */
-.tabbrowser-tab *, 
-#nav-bar toolbarbutton *,
-#PersonalToolbar toolbarbutton *,
-#urlbar *, #searchbar *,
-menupopup *, menuitem * { 
-  backface-visibility: hidden; 
+@keyframes focusPulse {
+  0%, 100% { outline-color: #448aff; }
+  50% { outline-color: #64b5f6; }
 }
