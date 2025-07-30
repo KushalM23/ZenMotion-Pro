@@ -258,24 +258,6 @@
   100% { width: 100%; background-position: 200% 50%; }
 }
 
-/* Connection security indicator */
-#urlbar[pageproxystate="valid"] #identity-box {
-  position: relative;
-}
-
-#urlbar[pageproxystate="valid"] #identity-box::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: 4px;
-  animation: securityGlow 3s ease-in-out infinite;
-}
-
-@keyframes securityGlow {
-  0%, 100% { box-shadow: inset 0 0 0 1px rgba(76, 175, 80, 0.3); }
-  50% { box-shadow: inset 0 0 0 1px rgba(76, 175, 80, 0.6); }
-}
-
 /* === CONTEXT MENU ENHANCEMENTS === */
 /* Enhanced context menu with stagger animation */
 menupopup {
@@ -442,3 +424,260 @@ menupopup *, menuitem *,
   0%, 100% { outline-color: #448aff; }
   50% { outline-color: #64b5f6; }
 }
+
+/* ---------- Find-bar (Ctrl+F) ---------------------------------------------------- */
+.browserContainer>findbar{
+  order:-1!important;   /* stick to top */
+  background:transparent!important;
+  padding:4px 10px!important;
+}
+.browserContainer>findbar .findbar-container{
+  @apply .lg-backdrop .lg-outline;
+  padding:6px 14px!important;
+  border-radius:14px;
+}
+.findbar-textbox,
+.findbar-find-previous,
+.findbar-find-next,
+.findbar-highlight,
+.findbar-caseSensitive,
+.findbar-entireword,
+.findbar-matchdiacritics{
+  @apply .lg-backdrop .lg-outline;
+  margin-inline:4px!important;
+  border-radius:10px!important;
+}
+.findbar-textbox{min-width:220px!important;}
+.findbar-textbox[status="notfound"]{
+  animation:lgShake .3s linear;
+  outline-color:#ff5555!important;
+}
+@keyframes lgShake{
+  25%{transform:translateX(-3px);}
+  50%{transform:translateX(3px);}
+}
+
+/* ---------- URL bar -------------------------------------------------------------- */
+#urlbar-container{
+  flex:1 1 auto;
+}
+#urlbar-background,
+#urlbar,
+#urlbar-input-container{
+  @apply .lg-backdrop .lg-outline;
+  border-radius:15px!important;
+}
+#urlbar-background:focus-within{
+  backdrop-filter:blur(calc(var(--lg-blur-u)*1.2)) saturate(300%) brightness(1.8);
+  transform:scale(1.02);
+}
+
+
+/* Zen Browser - All Tabs with Rounded Corners */
+:root {
+    --zen-tab-border-radius: 15px !important;
+    --zen-element-separation: 5px !important;
+}
+
+/* Individual tabs */
+.tabbrowser-tab {
+    border-radius: var(--zen-tab-border-radius) !important;
+    margin: 2px 1px !important;
+    overflow: hidden !important;
+}
+
+.tab-background,
+.tab-content,
+.tab-stack {
+    border-radius: var(--zen-tab-border-radius) !important;
+}
+
+/* Tab panels and containers */
+#tabbrowser-tabpanels,
+#tabbrowser-tabbox {
+    border-radius: var(--zen-tab-border-radius) !important;
+    overflow: -moz-hidden-unscrollable;
+}
+
+/* Tab bar */
+#TabsToolbar,
+#tabbrowser-arrowscrollbox {
+    border-radius: var(--zen-tab-border-radius) !important;
+}
+
+/* Interactive states */
+.tabbrowser-tab[selected="true"],
+.tabbrowser-tab:hover {
+    border-radius: var(--zen-tab-border-radius) !important;
+}
+
+.tab-close-button {
+    border-radius: 50% !important;
+}
+
+/* Compact mode */
+@media (-moz-bool-pref: "zen.view.compact") {
+    .tabbrowser-tab {
+        margin: 1px !important;
+    }
+    
+    #tabbrowser-tabpanels:not([zen-split-view]) {
+        --zen-webview-border-radius: var(--zen-tab-border-radius) !important;
+    }
+}
+
+/* Zen Browser - All Toolbar Buttons with Rounded Corners */
+:root {
+    --zen-toolbar-button-radius: 12px !important;
+}
+
+/* General toolbar buttons */
+.toolbarbutton-1,
+toolbarbutton,
+.toolbarbutton-icon,
+.toolbarbutton-badge-stack {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+}
+
+/* Navigation buttons */
+#back-button,
+#forward-button,
+#reload-button,
+#home-button,
+#stop-button {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+    margin: 1px !important;
+}
+
+/* Page action buttons */
+.urlbar-page-action,
+#pageActionButton,
+#reader-mode-button,
+#urlbar-go-button {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+}
+
+/* Zen-specific buttons */
+#zen-create-new-button,
+#zen-workspaces-button toolbarbutton,
+#downloads-button .toolbarbutton-badge-stack {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+}
+
+/* Interactive states */
+.toolbarbutton-1:hover,
+.toolbarbutton-1[open="true"],
+.toolbarbutton-1:active,
+toolbarbutton:hover,
+toolbarbutton[open="true"],
+toolbarbutton:active {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+}
+
+/* Disabled state */
+.toolbarbutton-1[disabled="true"],
+toolbarbutton[disabled="true"] {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+    opacity: 0.4 !important;
+}
+
+/* Zen Browser - Browser Content Areas with Rounded Corners */
+:root {
+    --zen-content-border-radius: 12px !important;
+}
+
+/* Picture-in-Picture video player */
+#PictureInPictureToggleButton,
+.pictureInPictureRoot,
+.PictureInPictureChild,
+video[picture-in-picture] {
+    border-radius: var(--zen-content-border-radius) !important;
+    overflow: hidden !important;
+}
+
+/* Screenshot and capture tools */
+#screenshot-overlay,
+.screenshots-overlay-container,
+.screenshot-preview {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Print preview */
+#print-preview-toolbar,
+.printPreviewBrowser,
+.print-preview-container {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Developer tools and console */
+#toolbox-container,
+.devtools-toolbox-window,
+.devtools-toolbox,
+.devtools-tabpanel,
+.devtools-sidebar,
+.webconsole-app {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Console components */
+.jsterm-input-container,
+.webconsole-output-wrapper,
+.inspector-tabpanel,
+.theme-sidebar {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Web panels and extensions */
+.webextension-popup-browser,
+.sidebar-panel,
+.webpanel-frame,
+.panel-arrowcontent,
+.extension-popup-panel {
+    border-radius: var(--zen-content-border-radius) !important;
+    overflow: hidden !important;
+}
+
+/* Bookmark and history panels */
+.sidebar-placesTree,
+.places-tree {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Media elements */
+video:not([fullscreen]) {
+    border-radius: var(--zen-content-border-radius) !important;
+    overflow: hidden !important;
+}
+
+audio,
+.videocontrols:not(.fullscreen-video),
+.controlsOverlay:not(.fullscreen-video) {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Content overlays */
+.panel-arrow,
+.permission-popup,
+.download-progress,
+.downloadsPanelFooter,
+.autocomplete-richlistbox,
+.urlbar-results {
+    border-radius: var(--zen-content-border-radius) !important;
+}
+
+/* Ensure fullscreen content remains square */
+video[fullscreen],
+.controlsContainer.fullscreen-video {
+    border-radius: 0px !important;
+}
+
+/* Browser content areas in compact mode */
+@media (-moz-bool-pref: "zen.view.compact") {
+    .pictureInPictureRoot,
+    .webextension-popup-browser,
+    .sidebar-panel {
+        border-radius: var(--zen-content-border-radius) !important;
+        margin: 2px !important;
+    }
+}
+
