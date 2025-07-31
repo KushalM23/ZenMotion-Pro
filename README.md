@@ -9,4 +9,6 @@ A premium, performance-optimized animation, rounded corners, and glow effects (C
 4. `about:config` → set `toolkit.legacyUserProfileCustomizations.stylesheets` to `true`
 5. Restart browser
 
+## Preview (Coming Soon)
+
 Enjoy the best optimized animations ever!
