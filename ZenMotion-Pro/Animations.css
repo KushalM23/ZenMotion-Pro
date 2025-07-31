@@ -26,7 +26,7 @@
 
 /* Selected tab with animated indicator */
 .tabbrowser-tab[selected] {
-  box-shadow: 0 6px 18px -6px rgba(50,70,160,0.20);
+  box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--zen-primary-color) 20%, transparent);
   z-index: 3;
 }
 
@@ -36,7 +36,7 @@
   left: 8px; right: 8px; bottom: 2px;
   height: 3px;
   border-radius: 1.5px;
-  background: linear-gradient(90deg,#448aff 30%,#64b5f6 100%);
+  background: linear-gradient(90deg, var(--zen-primary-color) 30%, color-mix(in srgb, var(--zen-primary-color) 80%, white) 100%);
   animation: indicatorSlide 0.3s cubic-bezier(0.68,-0.55,0.27,1.55);
   width: calc(100% - 16px);
   pointer-events: none;
