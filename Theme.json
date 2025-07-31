@@ -1,0 +1,17 @@
+{
+  "id": "ZenMotion-Pro",
+  "homepage": "https://github.com/Mohammed55Z/ZenMotion-Pro",
+  "author": "Mohammed55Z",
+  "name": "ZenMotion Pro",
+  "description": "A premium, performance-optimized animation framework that transforms Zen Browser into a Modern Material Interface. :))",
+  "version": "1.3.1",
+  "createdAt": "2025-07-23",
+  "updatedAt": "2025-07-30",
+  "readme": "https://raw.githubusercontent.com/Mohammed55Z/ZenMotion-Pro/refs/heads/main/README.mdS",
+  "tags": [
+    "animation",
+    "chrome",
+    "minimal"
+  ],
+  "fork": ["zen"]
+}
