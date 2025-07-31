@@ -1,0 +1,116 @@
+/* ---------- Find-bar (Ctrl+F) ---------------------------------------------------- */
+.browserContainer>findbar{
+  order:-1!important;   /* stick to top */
+  background:transparent!important;
+  padding:4px 10px!important;
+}
+.browserContainer>findbar .findbar-container{
+  @apply .lg-backdrop .lg-outline;
+  padding:6px 14px!important;
+  border-radius:14px;
+}
+.findbar-textbox,
+.findbar-find-previous,
+.findbar-find-next,
+.findbar-highlight,
+.findbar-caseSensitive,
+.findbar-entireword,
+.findbar-matchdiacritics{
+  @apply .lg-backdrop .lg-outline;
+  margin-inline:4px!important;
+  border-radius:10px!important;
+}
+.findbar-textbox{min-width:220px!important;}
+.findbar-textbox[status="notfound"]{
+  animation:lgShake .3s linear;
+  outline-color:#ff5555!important;
+}
+@keyframes lgShake{
+  25%{transform:translateX(-3px);}
+  50%{transform:translateX(3px);}
+}
+
+/* ---------- URL bar -------------------------------------------------------------- */
+#urlbar-container{
+  flex:1 1 auto;
+}
+#urlbar-background,
+#urlbar,
+#urlbar-input-container{
+  @apply .lg-backdrop .lg-outline;
+  border-radius:15px!important;
+}
+#urlbar-background:focus-within{
+  backdrop-filter:blur(calc(var(--lg-blur-u)*1.2)) saturate(300%) brightness(1.8);
+  transform:scale(1.02);
+}
+
+/* ---------- Rounded Corners -------------------------------------------------------------- */
+
+/* Zen Browser - All Tabs with Rounded Corners */
+:root {
+    --zen-tab-border-radius: 15px !important;
+    --zen-element-separation: 4px !important;
+}
+
+.tab-background,
+.tab-content,
+.tab-stack {
+    border-radius: var(--zen-tab-border-radius) !important;
+}
+
+/* Tab panels and containers */
+#tabbrowser-tabpanels,
+#tabbrowser-tabbox {
+    border-radius: var(--zen-tab-border-radius) !important;
+    overflow: -moz-hidden-unscrollable;
+}
+
+/* Tab bar */
+#TabsToolbar,
+#tabbrowser-arrowscrollbox {
+    border-radius: var(--zen-tab-border-radius) !important;
+}
+
+/* Interactive states */
+.tabbrowser-tab[selected="true"],
+.tabbrowser-tab:hover {
+    border-radius: var(--zen-tab-border-radius) !important;
+}
+
+.tab-close-button {
+    border-radius: 50% !important;
+}
+
+/* Compact mode */
+@media (-moz-bool-pref: "zen.view.compact") {
+    .tabbrowser-tab {
+        margin: 1px !important;
+    }
+    
+    #tabbrowser-tabpanels:not([zen-split-view]) {
+        --zen-webview-border-radius: var(--zen-tab-border-radius) !important;
+    }
+}
+
+/* Zen Browser - All Toolbar Buttons with Rounded Corners */
+:root {
+    --zen-toolbar-button-radius: 12px !important;
+}
+
+/* General toolbar buttons */
+.toolbarbutton-1,
+.toolbarbutton-icon,
+.toolbarbutton-badge-stack {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+}
+
+/* Navigation buttons */
+#back-button,
+#forward-button,
+#reload-button,
+#home-button,
+#stop-button {
+    border-radius: var(--zen-toolbar-button-radius) !important;
+    margin: 1px !important;
+}
