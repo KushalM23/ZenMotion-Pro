@@ -23,10 +23,10 @@
     "property": "ZenMotion-RoundedCorners",
     "label": "Remove Rounded Corners"
   },
-
   {
     "type": "checkbox",
     "property": "ZenMotion-BetterFindBar",
     "label": "Disable Better FindBar"
   }
+
 ]
