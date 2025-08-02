@@ -1,0 +1,119 @@
+/* Auto-hide navigation buttons with smooth animations */
+
+/* Smooth transition setup for navigation buttons */
+#back-button,
+#forward-button {
+  transition: opacity 0.3s cubic-bezier(0.22,1.5,0.36,1),
+              transform 0.3s cubic-bezier(0.22,1.5,0.36,1),
+              width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              margin 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transform-origin: center;
+  overflow: hidden;
+}
+
+/* Smooth hide animation for disabled buttons */
+#back-button[disabled="true"],
+#forward-button[disabled="true"],
+toolbarbutton#back-button[disabled],
+toolbarbutton#forward-button[disabled] {
+  opacity: 0 !important;
+  transform: scale(0.7) translateX(-50%) !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Enhanced smooth show animation for enabled buttons */
+#back-button:not([disabled="true"]):not([disabled]),
+#forward-button:not([disabled="true"]):not([disabled]),
+toolbarbutton#back-button:not([disabled]),
+toolbarbutton#forward-button:not([disabled]) {
+  opacity: 1 !important;
+  transform: scale(1) translateX(0) !important;
+  animation: buttonSlideIn 0.4s cubic-bezier(0.68,-0.6, 0.32,1.6) !important;
+}
+
+@keyframes buttonSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateX(-20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateX(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+/* Maintain existing hover animations */
+#back-button:not([disabled]):hover {
+  transform: translateX(-2px) translateY(-1px) scale(1.08) !important;
+  box-shadow: 0 4px 12px -3px rgba(30,40,80,0.15) !important;
+}
+
+#forward-button:not([disabled]):hover {
+  transform: translateX(2px) translateY(-1px) scale(1.08) !important;
+  box-shadow: 0 4px 12px -3px rgba(30,40,80,0.15) !important;
+}
+
+/* Smooth active states */
+#back-button:not([disabled]):active {
+  transform: translateX(-1px) scale(1.04) !important;
+  transition-duration: 0.1s !important;
+}
+
+#forward-button:not([disabled]):active {
+  transform: translateX(1px) scale(1.04) !important;
+  transition-duration: 0.1s !important;
+}
+
+/* Ensure proper toolbar layout without jumps */
+#nav-bar {
+  min-height: unset !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Toolbar button container smooth adjustment */
+#nav-bar-customization-target {
+  transition: margin 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Prevent layout shift during transitions */
+#back-button,
+#forward-button {
+  min-width: 0 !important;
+  flex-shrink: 1 !important;
+}
+
+/* Smooth focus indicators for keyboard navigation */
+#back-button:not([disabled]):focus-visible,
+#forward-button:not([disabled]):focus-visible {
+  outline: 2px solid var(--zen-primary-color, #448aff) !important;
+  outline-offset: 2px !important;
+  animation: focusPulse 1s ease-in-out infinite !important;
+}
+
+@keyframes focusPulse {
+  0%, 100% { outline-color: var(--zen-primary-color, #448aff); }
+  50% { outline-color: color-mix(in srgb, var(--zen-primary-color, #448aff) 60%, white); }
+}
+
+/* Performance optimization */
+#back-button,
+#forward-button {
+  will-change: opacity, transform, width !important;
+  backface-visibility: hidden !important;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  #back-button,
+  #forward-button {
+    transition: none !important;
+    animation: none !important;
+  }
+}

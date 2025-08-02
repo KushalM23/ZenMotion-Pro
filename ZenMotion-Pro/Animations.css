@@ -24,29 +24,6 @@
   z-index: 2;
 }
 
-/* Selected tab with animated indicator */
-.tabbrowser-tab[selected] {
-  box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--zen-primary-color) 20%, transparent);
-  z-index: 3;
-}
-
-.tabbrowser-tab[selected] .tab-background:after {
-  content: "";
-  position: absolute;
-  left: 8px; right: 8px; bottom: 2px;
-  height: 3px;
-  border-radius: 1.5px;
-  background: linear-gradient(90deg, var(--zen-primary-color) 30%, color-mix(in srgb, var(--zen-primary-color) 80%, white) 100%);
-  animation: indicatorSlide 0.3s cubic-bezier(0.68,-0.55,0.27,1.55);
-  width: calc(100% - 16px);
-  pointer-events: none;
-}
-
-@keyframes indicatorSlide {
-  0% { width: 0; opacity: 0; }
-  100% { width: calc(100% - 16px); opacity: 1; }
-}
-
 /* Fade inactive tabs with breathing effect */
 .tabbrowser-tab:not([selected]) {
   opacity: 0.82;

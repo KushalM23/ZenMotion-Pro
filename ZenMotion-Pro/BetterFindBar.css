@@ -1,31 +1,35 @@
-/* ---------- Find-bar (Ctrl+F) ---------------------------------------------------- */
-.browserContainer>findbar{
-  order:-1!important;   /* stick to top */
-  background:transparent!important;
-  padding:4px 10px!important;
-}
-.browserContainer>findbar .findbar-container{
-  @apply .lg-backdrop .lg-outline;
-  padding:6px 14px!important;
-  border-radius:14px;
-}
-.findbar-textbox,
-.findbar-find-previous,
-.findbar-find-next,
-.findbar-highlight,
-.findbar-caseSensitive,
-.findbar-entireword,
-.findbar-matchdiacritics{
-  @apply .lg-backdrop .lg-outline;
-  margin-inline:4px!important;
-  border-radius:10px!important;
-}
-.findbar-textbox{min-width:220px!important;}
-.findbar-textbox[status="notfound"]{
-  animation:lgShake .3s linear;
-  outline-color:#ff5555!important;
-}
-@keyframes lgShake{
-  25%{transform:translateX(-3px);}
-  50%{transform:translateX(3px);}
-}
+@media (-moz-pref("ZenMotion-BetterFindBar", false)) {
+
+  /* ---------- Find-bar (Ctrl+F) ---------------------------------------------------- */
+  .browserContainer>findbar{
+    order:-1!important;   /* stick to top */
+    background:transparent!important;
+    padding:4px 10px!important;
+  }
+  .browserContainer>findbar .findbar-container{
+    @apply .lg-backdrop .lg-outline;
+    padding:6px 14px!important;
+    border-radius:14px;
+  }
+  .findbar-textbox,
+  .findbar-find-previous,
+  .findbar-find-next,
+  .findbar-highlight,
+  .findbar-caseSensitive,
+  .findbar-entireword,
+  .findbar-matchdiacritics{
+    @apply .lg-backdrop .lg-outline;
+    margin-inline:4px!important;
+    border-radius:10px!important;
+  }
+  .findbar-textbox{min-width:220px!important;}
+  .findbar-textbox[status="notfound"]{
+    animation:lgShake .3s linear;
+    outline-color:#ff5555!important;
+  }
+  @keyframes lgShake{
+    25%{transform:translateX(-3px);}
+    50%{transform:translateX(3px);}
+  }
+
+} /* END media query */
