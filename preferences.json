@@ -27,6 +27,12 @@
     "type": "checkbox",
     "property": "ZenMotion-BetterFindBar",
     "label": "Disable Better FindBar"
+  },
+  {
+    "type": "checkbox",
+    "property": "ZenMotion-Loadingtabanimation",
+    "label": "Removes the loading tab icon animation"
   }
 ]
+
 
