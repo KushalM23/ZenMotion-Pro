@@ -68,10 +68,12 @@
   50% { box-shadow: 0 0 0 4px rgba(68, 138, 255, 0.1); }
 }
 
-/* Loading tab favicon animation */
-.tabbrowser-tab[busy] .tab-icon-image {
-  animation: faviconSpin 1s linear infinite;
-}
+@media (-moz-pref("ZenMotion-Loadingtabanimation", false)) {
+
+  /* Loading tab favicon animation */
+  .tabbrowser-tab[busy] .tab-icon-image {
+    animation: faviconSpin 1s linear infinite;
+  }
 
 @keyframes faviconSpin {
   0% { transform: rotate(0deg); }
