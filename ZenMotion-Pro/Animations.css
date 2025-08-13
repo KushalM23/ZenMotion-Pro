@@ -42,9 +42,9 @@
 }
 
 @keyframes tabBounceIn {
-  0% { opacity: 0; transform: scale(0.86) translateY(4px) rotateX(15deg); }
-  60% { opacity: 1; transform: scale(1.09) translateY(-3px) rotateX(-5deg); }
-  100% { opacity: 1; transform: scale(1.0) translateY(0) rotateX(0); }
+  0% { opacity: 0; transform: scale(0.86) translateY(4px); }
+  60% { opacity: 1; transform: scale(1.01) translateY(-3px); }
+  100% { opacity: 1; transform: scale(1.0) translateY(0); }
 }
 
 /* Enhanced tab closing animation */
@@ -68,17 +68,6 @@
   50% { box-shadow: 0 0 0 4px rgba(68, 138, 255, 0.1); }
 }
 
-@media (-moz-pref("ZenMotion-Loadingtabanimation", false)) {
-
-  /* Loading tab favicon animation */
-  .tabbrowser-tab[busy] .tab-icon-image {
-    animation: faviconSpin 1s linear infinite;
-  }
-
-@keyframes faviconSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
 /* Tab preview on long hover */
 .tabbrowser-tab:hover::after {
@@ -112,11 +101,6 @@
   overflow: hidden;
 }
 
-.tab-close-button:hover {
-  transform: scale(1.20);
-  opacity: 1;
-  box-shadow: 0 0 8px rgba(255,0,0,0.3);
-}
 
 .tab-close-button:active::before {
   content: "";
