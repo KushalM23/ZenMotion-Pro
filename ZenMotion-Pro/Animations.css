@@ -37,15 +37,15 @@
 }
 
 /* Enhanced tab opening animation */
-.tabbrowser-tab[fadein] {
-  animation: tabBounceIn 0.34s cubic-bezier(0.68,-0.6, 0.32,1.6);
+/* .tabbrowser-tab[fadein] {
+  animation: tabBounceIn 0.4s cubic-bezier(0.68,-0.6, 0.32,1.6);
 }
 
 @keyframes tabBounceIn {
   0% { opacity: 0; transform: scale(0.86) translateY(0px); }
   60% { opacity: 1; transform: scale(1.01) translateY(-3px); }
   100% { opacity: 1; transform: scale(1.0) translateY(0); }
-}
+} */
 
 /* Enhanced tab closing animation */
 .tabbrowser-tab[closing] {
